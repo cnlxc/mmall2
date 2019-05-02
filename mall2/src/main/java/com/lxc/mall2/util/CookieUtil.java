@@ -20,6 +20,7 @@ public class CookieUtil {
         Cookie cookie = new Cookie(COOKIE_NAME,token);
         cookie.setMaxAge(60*60*24);
         cookie.setDomain(COOKIE_DOMAIN);
+
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         response.addCookie(cookie);

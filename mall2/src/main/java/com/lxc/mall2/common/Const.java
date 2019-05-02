@@ -23,6 +23,7 @@ public class Const {
         String LIMIT_FAILED = "限制购物车商品数量失败";
     }
     public interface RedisCacheExtime{
+
         int REDIS_SESSION_EXTIME = 60*60*24*3;
 
     }
