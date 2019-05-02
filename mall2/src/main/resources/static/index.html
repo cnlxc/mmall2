@@ -1,0 +1,31 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>服务器1</title>
+    <link data-turbolinks-track="true" href="http://static.oswd.org/assets/application-6d2a4562b1f5d344541d91ef6d0c8e9a.css" media="all" rel="stylesheet">
+</head>
+<body>
+<script type="javascript">
+    function logok(){
+        console.log("登陆成功！");
+    }
+
+</script>
+<h2>服务器1</h2>
+<form name="login" action="/user/login.do" method="post" onsubmit="logok()" enctype="application/x-www-form-urlencoded">
+    <input type="text" name="用户名"/>
+    <input type="text" name="密码"/>
+    <input type="submit" value="登陆"/>
+</form>
+
+<form name="form1" action="/manage/product/upload.do" method="post" enctype="multipart/form-data">
+    <input type="file" name="upload_file"/>
+    <input type="submit" value="图片上传"/>
+</form>
+
+<form name="form2" action="/manage/product/richtext_img_upload.do" method="post" enctype="multipart/form-data">
+    <input type="file" name="upload_file"/>
+    <input type="submit" value="富文本上传"/>
+</form>
+</body>
+</html>
