@@ -31,21 +31,23 @@ public class CookieUtil {
         Cookie[] cks = request.getCookies();
         Arrays.asList(cks).stream()
                 .filter(cookie -> {
-                    if(cookie.getName() == COOKIE_NAME) return true;
+                    if(StringUtils.equals(cookie.getName(),COOKIE_NAME)) return true;
                     return false;
                 })
                 .forEach(cookie1 -> {
+                    cookie1.setDomain(COOKIE_DOMAIN);
                     cookie1.setMaxAge(0);
                     cookie1.setPath("/");
+                    log.info("debug :"+cookie1.getName());
                     response.addCookie(cookie1);
                 });
     }
-    public static String ReadLoginCookie(HttpServletRequest request){
+    public static String readLoginCookie(HttpServletRequest request){
         Cookie[] cks = request.getCookies();
         for(Cookie cookie : cks){
             log.info("read cookieName: {},cookieValue:{}",cookie.getName(),cookie.getValue());
             if(StringUtils.equals(cookie.getName(),COOKIE_NAME)){
-                log.info("cookie {} value is {}",COOKIE_DOMAIN,cookie.getName() );
+                log.info("cookie {} value is {}",COOKIE_NAME,cookie.getName() );
                 return cookie.getValue();
             }
         }
