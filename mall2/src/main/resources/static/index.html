@@ -5,16 +5,10 @@
     <link data-turbolinks-track="true" href="http://static.oswd.org/assets/application-6d2a4562b1f5d344541d91ef6d0c8e9a.css" media="all" rel="stylesheet">
 </head>
 <body>
-<script type="javascript">
-    function logok(){
-        console.log("登陆成功！");
-    }
-
-</script>
 <h2>服务器1</h2>
-<form name="login" action="/user/login.do" method="post" onsubmit="logok()" enctype="application/x-www-form-urlencoded">
-    <input type="text" name="用户名"/>
-    <input type="text" name="密码"/>
+<form name="login" action="/user/login.do" method="post" enctype="application/x-www-form-urlencoded">
+    <input type="text" name="username"/>
+    <input type="text" name="password"/>
     <input type="submit" value="登陆"/>
 </form>
 
