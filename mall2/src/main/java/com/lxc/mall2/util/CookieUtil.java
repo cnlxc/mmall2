@@ -14,12 +14,13 @@ import java.util.Arrays;
 @Slf4j
 public class CookieUtil {
     private static final String COOKIE_NAME = "LOGIN_TOKEN";
-    private static final String COOKIE_DOMAIN = "www.lxc.com";
+    private static final String COOKIE_DOMAIN = ".lxc.com";
 
     public static void WriteLoginToken(HttpServletResponse response,String token){
         Cookie cookie = new Cookie(COOKIE_NAME,token);
         cookie.setMaxAge(60*60*24);
         cookie.setDomain(COOKIE_DOMAIN);
+        cookie.setHttpOnly(true);
         cookie.setPath("/");
         response.addCookie(cookie);
 

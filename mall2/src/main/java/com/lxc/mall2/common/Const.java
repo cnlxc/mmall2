@@ -22,6 +22,10 @@ public class Const {
         String LIMIT_SUCCESS = "限制购物车商品数量成功";
         String LIMIT_FAILED = "限制购物车商品数量失败";
     }
+    public interface RedisCacheExtime{
+        int REDIS_SESSION_EXTIME = 60*60*24*3;
+
+    }
 
     public interface ProductListOrderBy{
         Set<String> PRICE_ASC_DESC = Sets.newHashSet("price_desc","price_asc");

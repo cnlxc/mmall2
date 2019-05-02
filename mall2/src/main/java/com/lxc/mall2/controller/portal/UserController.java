@@ -41,10 +41,8 @@ public class UserController {
         if(response.isSuccess()) {
             //session.setAttribute(Const.CURRENT_USER,response.getData());
             User user = (User)response.getData();
-            RedisPoolUtil.set(String.valueOf(user.getId() ), JsonUtil.obj2String(user));
-            CookieUtil.WriteLoginToken(httpResponse,String.valueOf(user.getId()) );
-            CookieUtil.ReadLoginCookie(request);
-            CookieUtil.delLoginCookie(request,httpResponse);
+            CookieUtil.WriteLoginToken(httpResponse,session.getId() );
+            RedisPoolUtil.setEx(session.getId(), JsonUtil.obj2String(user),Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
         }
         httpResponse.addHeader("Access-Control-Allow-Origin", "*");
         return response;
