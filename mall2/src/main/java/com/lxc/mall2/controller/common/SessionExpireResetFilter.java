@@ -4,12 +4,11 @@ import com.lxc.mall2.common.Const;
 import com.lxc.mall2.pojo.User;
 import com.lxc.mall2.util.CookieUtil;
 import com.lxc.mall2.util.JsonUtil;
-import com.lxc.mall2.util.RedisPoolUtil;
+import com.lxc.mall2.util.ShardedRedisUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -30,10 +29,10 @@ public class SessionExpireResetFilter implements Filter{
         //loginToken不为空证明这是登陆过的用户发来的请求
         if(StringUtils.isNotEmpty(loginToken)){
             //再把redis里的json字符串转为User对象，个人觉得没有必要，logintoken不为空就能证明用户存在了
-            String userJsonStr = RedisPoolUtil.get(loginToken);
+            String userJsonStr = ShardedRedisUtil.get(loginToken);
             User user = JsonUtil.string2Obj(userJsonStr,User.class);
             if(user != null)
-                RedisPoolUtil.expire(loginToken, Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
+                ShardedRedisUtil.expire(loginToken, Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
         }
         chain.doFilter(request,response);
     }

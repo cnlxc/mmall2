@@ -1,7 +1,6 @@
 package com.lxc.mall2.controller.backend;
 
 import com.google.common.collect.Maps;
-import com.lxc.mall2.common.Const;
 import com.lxc.mall2.common.ServerResponse;
 import com.lxc.mall2.pojo.Product;
 import com.lxc.mall2.pojo.User;
@@ -11,7 +10,7 @@ import com.lxc.mall2.service.IUserService;
 import com.lxc.mall2.util.CookieUtil;
 import com.lxc.mall2.util.JsonUtil;
 import com.lxc.mall2.util.PropertiesUtil;
-import com.lxc.mall2.util.RedisPoolUtil;
+import com.lxc.mall2.util.ShardedRedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -48,7 +46,7 @@ public class ProductManageController {
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录，无法获取用户信息");
         }
-        User user = JsonUtil.string2Obj(RedisPoolUtil.get(loginToken),User.class);
+        User user = JsonUtil.string2Obj(ShardedRedisUtil.get(loginToken),User.class);
         if(user == null) {
             return ServerResponse.createByErrorMessage("用户未登陆，请以管理员身份登陆");
         }
@@ -67,7 +65,7 @@ public class ProductManageController {
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录，无法获取用户信息");
         }
-        User user = JsonUtil.string2Obj(RedisPoolUtil.get(loginToken),User.class);
+        User user = JsonUtil.string2Obj(ShardedRedisUtil.get(loginToken),User.class);
         if(user == null) {
             return ServerResponse.createByErrorMessage("用户未登陆，请以管理员身份登陆");
         }
@@ -86,7 +84,7 @@ public class ProductManageController {
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录，无法获取用户信息");
         }
-        User user = JsonUtil.string2Obj(RedisPoolUtil.get(loginToken),User.class);
+        User user = JsonUtil.string2Obj(ShardedRedisUtil.get(loginToken),User.class);
         if(user == null) {
             return ServerResponse.createByErrorMessage("用户未登陆，请以管理员身份登陆");
        }
@@ -105,7 +103,7 @@ public class ProductManageController {
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录，无法获取用户信息");
         }
-        User user = JsonUtil.string2Obj(RedisPoolUtil.get(loginToken),User.class);
+        User user = JsonUtil.string2Obj(ShardedRedisUtil.get(loginToken),User.class);
         if(user == null) {
             return ServerResponse.createByErrorMessage("用户未登陆，请以管理员身份登陆");
         }
@@ -124,7 +122,7 @@ public class ProductManageController {
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录，无法获取用户信息");
         }
-        User user = JsonUtil.string2Obj(RedisPoolUtil.get(loginToken),User.class);
+        User user = JsonUtil.string2Obj(ShardedRedisUtil.get(loginToken),User.class);
         if(user == null) {
             return ServerResponse.createByErrorMessage("用户未登陆，请以管理员身份登陆");
         }
@@ -143,7 +141,7 @@ public class ProductManageController {
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录，无法获取用户信息");
         }
-        User user = JsonUtil.string2Obj(RedisPoolUtil.get(loginToken),User.class);
+        User user = JsonUtil.string2Obj(ShardedRedisUtil.get(loginToken),User.class);
         if(user == null) {
             return ServerResponse.createByErrorMessage("用户未登陆，请以管理员身份登陆");
         }
@@ -170,7 +168,7 @@ public class ProductManageController {
             resultMap.put("msg","用戶未登錄");
             return resultMap;
         }
-        User user = JsonUtil.string2Obj(RedisPoolUtil.get(loginToken),User.class);
+        User user = JsonUtil.string2Obj(ShardedRedisUtil.get(loginToken),User.class);
         if(user == null) {
             resultMap.put("success",false);
             resultMap.put("msg","请登录管理员");

@@ -2,12 +2,11 @@ package com.lxc.mall2.service.Impl;
 
 import com.lxc.mall2.common.Const;
 import com.lxc.mall2.common.ServerResponse;
-import com.lxc.mall2.common.TokenCache;
 import com.lxc.mall2.dao.UserMapper;
 import com.lxc.mall2.pojo.User;
 import com.lxc.mall2.service.IUserService;
 import com.lxc.mall2.util.MD5Util;
-import com.lxc.mall2.util.RedisPoolUtil;
+import com.lxc.mall2.util.ShardedRedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -96,7 +95,7 @@ public class UserServiceImpl implements IUserService{
         int resultCount = usermapper.checkAnswer(username,question,answer);
         if(resultCount > 0) {
             String uuid = UUID.randomUUID().toString();
-            RedisPoolUtil.setEx("token_"+username,uuid,60*60*12);
+            ShardedRedisUtil.setEx("token_"+username,uuid,60*60*12);
             //TokenCache.setKey("token_"+username,uuid);
             return ServerResponse.createBySuccess(uuid);
         }
@@ -113,7 +112,7 @@ public class UserServiceImpl implements IUserService{
 
             return ServerResponse.createByErrorMessage("用户不存在");
         }
-        String token = RedisPoolUtil.get("token_"+username);
+        String token = ShardedRedisUtil.get("token_"+username);
        // String token = TokenCache.getKey("token_"+username);
         if(org.apache.commons.lang3.StringUtils.isBlank(token)) {
             ServerResponse.createByErrorMessage("token无效，或者过期");

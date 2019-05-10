@@ -1,7 +1,6 @@
 package com.lxc.mall2.controller.portal;
 
 import com.github.pagehelper.PageInfo;
-import com.lxc.mall2.common.Const;
 import com.lxc.mall2.common.ResponseCode;
 import com.lxc.mall2.common.ServerResponse;
 import com.lxc.mall2.pojo.Shipping;
@@ -9,7 +8,7 @@ import com.lxc.mall2.pojo.User;
 import com.lxc.mall2.service.IShippingService;
 import com.lxc.mall2.util.CookieUtil;
 import com.lxc.mall2.util.JsonUtil;
-import com.lxc.mall2.util.RedisPoolUtil;
+import com.lxc.mall2.util.ShardedRedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * Created by 82138 on 2018/9/9.
@@ -40,7 +38,7 @@ public class ShippingController {
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录，无法获取用户信息");
         }
-        User user = JsonUtil.string2Obj(RedisPoolUtil.get(loginToken),User.class);
+        User user = JsonUtil.string2Obj(ShardedRedisUtil.get(loginToken),User.class);
         if(user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
@@ -57,7 +55,7 @@ public class ShippingController {
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录，无法获取用户信息");
         }
-        User user = JsonUtil.string2Obj(RedisPoolUtil.get(loginToken),User.class);
+        User user = JsonUtil.string2Obj(ShardedRedisUtil.get(loginToken),User.class);
         if(user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
@@ -74,7 +72,7 @@ public class ShippingController {
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录，无法获取用户信息");
         }
-        User user = JsonUtil.string2Obj(RedisPoolUtil.get(loginToken),User.class);
+        User user = JsonUtil.string2Obj(ShardedRedisUtil.get(loginToken),User.class);
         if(user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
@@ -90,7 +88,7 @@ public class ShippingController {
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录，无法获取用户信息");
         }
-        User user = JsonUtil.string2Obj(RedisPoolUtil.get(loginToken),User.class);
+        User user = JsonUtil.string2Obj(ShardedRedisUtil.get(loginToken),User.class);
         if(user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
@@ -108,7 +106,7 @@ public class ShippingController {
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录，无法获取用户信息");
         }
-        User user = JsonUtil.string2Obj(RedisPoolUtil.get(loginToken),User.class);
+        User user = JsonUtil.string2Obj(ShardedRedisUtil.get(loginToken),User.class);
         if(user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }

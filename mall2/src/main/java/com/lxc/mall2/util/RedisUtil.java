@@ -1,14 +1,17 @@
 package com.lxc.mall2.util;
 
 import com.lxc.mall2.common.RedisPool;
+import com.lxc.mall2.common.RedisShardedPool;
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.ShardedJedis;
+import redis.clients.jedis.ShardedJedisPool;
 
 /**
- * Created by geely
+ * Created by 82138 on 2019/5/3.
  */
 @Slf4j
-public class RedisPoolUtil {
+public class RedisUtil {
 
 
     /**

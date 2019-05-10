@@ -1,6 +1,5 @@
 package com.lxc.mall2.controller.portal;
 
-import com.github.pagehelper.StringUtil;
 import com.lxc.mall2.common.Const;
 import com.lxc.mall2.common.ResponseCode;
 import com.lxc.mall2.common.ServerResponse;
@@ -8,7 +7,7 @@ import com.lxc.mall2.pojo.User;
 import com.lxc.mall2.service.IUserService;
 import com.lxc.mall2.util.CookieUtil;
 import com.lxc.mall2.util.JsonUtil;
-import com.lxc.mall2.util.RedisPoolUtil;
+import com.lxc.mall2.util.ShardedRedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -46,7 +44,7 @@ public class UserController {
 
             User user = (User)response.getData();
             CookieUtil.WriteLoginToken(httpResponse,session.getId() );
-            RedisPoolUtil.setEx(session.getId(), JsonUtil.obj2String(user),Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
+            ShardedRedisUtil.setEx(session.getId(), JsonUtil.obj2String(user),Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
         }
         httpResponse.addHeader("Access-Control-Allow-Origin", "*");
         return response;
@@ -81,7 +79,7 @@ public class UserController {
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录，无法获取用户信息");
         }
-        User user = JsonUtil.string2Obj(RedisPoolUtil.get(loginToken),User.class);
+        User user = JsonUtil.string2Obj(ShardedRedisUtil.get(loginToken),User.class);
         return ServerResponse.createBySuccess(user);
     }
 
@@ -112,7 +110,7 @@ public class UserController {
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录，无法获取用户信息");
         }
-        User user = JsonUtil.string2Obj(RedisPoolUtil.get(loginToken),User.class);
+        User user = JsonUtil.string2Obj(ShardedRedisUtil.get(loginToken),User.class);
         if(user == null) {
             return ServerResponse.createByErrorMessage("用户未登陆");
         }
@@ -128,7 +126,7 @@ public class UserController {
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录，无法获取用户信息");
         }
-        User currentUser = JsonUtil.string2Obj(RedisPoolUtil.get(loginToken),User.class);
+        User currentUser = JsonUtil.string2Obj(ShardedRedisUtil.get(loginToken),User.class);
         if(currentUser == null) {
             return ServerResponse.createByErrorMessage("用户未登陆");
         }
@@ -137,7 +135,7 @@ public class UserController {
         ServerResponse<User> response =  iUserService.updateInformation(user);
         if(response.isSuccess()) {
             response.getData().setUsername(currentUser.getUsername());
-            RedisPoolUtil.set(session.getId(),JsonUtil.obj2String(response.getData()) );
+            ShardedRedisUtil.set(session.getId(),JsonUtil.obj2String(response.getData()) );
             //session.setAttribute(Const.CURRENT_USER,response.getData());
         }
 
@@ -152,7 +150,7 @@ public class UserController {
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录，无法获取用户信息");
         }
-        User currentUser = JsonUtil.string2Obj(RedisPoolUtil.get(loginToken),User.class);
+        User currentUser = JsonUtil.string2Obj(ShardedRedisUtil.get(loginToken),User.class);
         if(currentUser == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登陆,需要强制登陆");
         }

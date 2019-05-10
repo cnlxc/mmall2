@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+
 
 @SpringBootApplication
 @MapperScan("com.lxc.mall2.dao")
@@ -22,7 +22,23 @@ public class Mall2Application {
 		filterRegistrationBean.setFilter(new SessionExpireResetFilter());
 		filterRegistrationBean.setName("loginTokenTimeResetFilter");
 		filterRegistrationBean.setOrder(1);
-		filterRegistrationBean.addUrlPatterns("/*");
+		filterRegistrationBean.addUrlPatterns("/*do");
 		return filterRegistrationBean;
 	}
+
+/*	*//**
+	 * springSession版本實現單點登陸的過濾器，該過濾器會包裝session對象，實現代碼無侵入
+	 * @return
+     *//*
+	@Bean
+	FilterRegistrationBean springSessionFilter(){
+		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+		filterRegistrationBean.setFilter(new DelegatingFilterProxy());
+		filterRegistrationBean.setName("loginTokenTimeResetFilter");
+		filterRegistrationBean.setOrder(2);
+		filterRegistrationBean.addUrlPatterns("*//*.do");
+		return filterRegistrationBean;
+	}*/
+
+
 }
