@@ -29,6 +29,7 @@ import com.lxc.mall2.vo.OrderVo;
 import com.lxc.mall2.vo.ShippingVo;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -503,5 +504,34 @@ public class OrderServiceImpl implements IOrderService{
                 return ServerResponse.createBySuccess("发货成功");
         }
         return ServerResponse.createByErrorMessage("订单不存在");
+    }
+
+    //关闭订单距离现在hour时间的未付款订单
+    public void closeOrder(int hour){
+        Date deadLine = DateUtils.addHours(new Date(),-hour);
+        List<Order> orderList =ordermapper.selectOrderByStatusAndCreatetime(Const.OrderStatus.NO_PAY.getCode(), DateTimeUtil.dateToStr(deadLine) );
+        logger.info("将要被关闭的订单" + orderList.toString());
+        for (Order order : orderList) {
+            List<OrderItem> orderItems = orderItemMapper.getByOrderNo(order.getOrderNo());
+            for(OrderItem orderItem : orderItems) {
+                //关单前的库存 该查询会加行锁
+                Integer count = productMapper.selectStockByProductID(orderItem.getProductId());
+                if (count == null)
+                    continue;
+                Product product = new Product();
+                //关单前先把单中的数量加到库存上
+                product.setStock(count + orderItem.getQuantity());
+                product.setId(orderItem.getProductId());
+                productMapper.updateByPrimaryKeySelective(product);
+                //删除订单中的物品
+                //orderItemMapper.deleteByPrimaryKey(orderItem.getId());
+                logger.info("废弃订单中的商品 ："+orderItem.getProductName());
+            }
+            //更新该订单的状态为关闭
+            ordermapper.closeOrderByNo(order.getOrderNo());
+
+        }
+
+
     }
 }

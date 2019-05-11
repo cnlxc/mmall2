@@ -135,4 +135,9 @@ public class Const {
             throw new RuntimeException("对应支付类型未找到");
         }
     }
+
+
+    public interface RedisLock{
+        public static final String REDIS_LOCK_KEY = "REDIS_LOCK_KEY";
+    }
 }

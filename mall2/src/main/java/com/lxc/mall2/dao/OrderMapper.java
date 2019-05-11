@@ -26,5 +26,7 @@ public interface OrderMapper {
 
     List<Order> selectAllOrder();
 
+    List<Order> selectOrderByStatusAndCreatetime(@Param("status") Integer status,@Param("date") String date);
 
+    void closeOrderByNo(@Param("orderNo") long orderNo);
 }
