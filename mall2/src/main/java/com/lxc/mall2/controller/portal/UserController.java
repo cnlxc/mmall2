@@ -11,6 +11,7 @@ import com.lxc.mall2.util.ShardedRedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,7 +47,7 @@ public class UserController {
             CookieUtil.WriteLoginToken(httpResponse,session.getId() );
             ShardedRedisUtil.setEx(session.getId(), JsonUtil.obj2String(user),Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
         }
-        httpResponse.addHeader("Access-Control-Allow-Origin", "*");
+        //httpResponse.addHeader("Access-Control-Allow-Origin", "*");
         return response;
     }
 

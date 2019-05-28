@@ -18,7 +18,11 @@ import com.lxc.mall2.vo.ProductListVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -213,5 +217,18 @@ public class ProductServiceImpl implements IProductService {
 
 
 
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
+    public void transactionTest(){
+        Product product = new Product();
+        product.setId(35);
+        product.setName("DOTA2 点卡");
+        product.setCategoryId(10002);
+        product.setPrice(new BigDecimal(100) );
+        product.setStock(1000);
+        product.setStatus(Const.ProductStatusEnum.ON_SALE.getCode());
+        productMapper.insert(product);
+        int i = 5/0;
     }
 }

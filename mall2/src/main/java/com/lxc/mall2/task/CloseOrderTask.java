@@ -3,14 +3,18 @@ package com.lxc.mall2.task;
 import ch.qos.logback.classic.gaffer.PropertyUtil;
 import com.lxc.mall2.common.Const;
 import com.lxc.mall2.common.RedisShardedPool;
+import com.lxc.mall2.common.RedissonManager;
 import com.lxc.mall2.service.IOrderService;
 import com.lxc.mall2.util.PropertiesUtil;
 import com.lxc.mall2.util.ShardedRedisUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 82138 on 2019/5/11.
@@ -21,6 +25,10 @@ import org.springframework.stereotype.Component;
 public class CloseOrderTask {
     @Autowired
     IOrderService iOrderService;
+
+    @Autowired
+    RedissonManager redissonManager;
+
     private int hour = Integer.parseInt(PropertiesUtil.getProperty("schedule.hour","2") );
     //@Scheduled(cron = "0 */1 * * * ?")//每一分钟执行一次
     public void closeOrder() {
@@ -32,7 +40,6 @@ public class CloseOrderTask {
 
     /**
      * redis锁使得只有一个服务器启动关单任务
-     *
      */
     @Scheduled(cron = "0 */1 * * * ?")//每一分钟执行一次
     public void closeOrderV2(){
@@ -61,7 +68,25 @@ public class CloseOrderTask {
         }
 
     }
+    //REDISSON版直接使用
+    //@Scheduled(cron = "0 */1 * * * ?")//每一分钟执行一次
+    public void closeOrderV3(){
+        RLock lock = redissonManager.getRedisson().getLock(Const.RedisLock.REDIS_LOCK_KEY);
+        boolean getLock = false;
+        try{
+            if(getLock =lock.tryLock(0,5, TimeUnit.SECONDS))
+                iOrderService.closeOrder(hour);
+            else log.info("Redisson分布式锁获取失败");
+        }catch (InterruptedException e){
+            log.error("{} 获取锁中断",Const.RedisLock.REDIS_LOCK_KEY);
+        }finally {
+            if(getLock == false)
+                return;
+            lock.unlock();
+            log.info("{} 锁释放",Const.RedisLock.REDIS_LOCK_KEY);
+        }
 
+    }
 
     /**
      * 获得锁后被调用，先设置有效期，即这个锁5秒后要被释放

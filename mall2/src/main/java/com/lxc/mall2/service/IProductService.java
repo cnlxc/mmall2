@@ -22,4 +22,6 @@ public interface IProductService {
     ServerResponse getProductDetail(Integer productId);
 
     ServerResponse<PageInfo> getProductByKeywordCategory(String keyword, Integer categoryId, int pageNum, int pageSize, String orderBy);
+
+    void transactionTest();
 }

@@ -13,6 +13,9 @@ public class WebConfigurer implements WebMvcConfigurer{
     public void addInterceptors(InterceptorRegistry registry){
         registry.addInterceptor(new AuthorityInterceptor())
                 .addPathPatterns("/manage/**");
+
+        registry.addInterceptor(new CrossOriginInterceptor())
+                .addPathPatterns("/**");
     }
 
 }
