@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ExceptionResolver implements HandlerExceptionResolver{
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, @Nullable Object handler, Exception ex) {
-        log.error("requet {} exception",request.getRequestURI(),ex);
+        log.error("request {} exception",request.getRequestURI(),ex);
         ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView() );
         modelAndView.addObject("status",response.getStatus() );
         modelAndView.addObject("msg","后台服務接口異常，請查看日志");

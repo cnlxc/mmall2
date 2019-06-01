@@ -164,4 +164,10 @@
     SELECT <include refid="Base_Column_List" />
     FROM mmall_cart WHERE user_id=#{userId} AND checked=1
   </select>
+
+  <select id="selectCountByUserId" parameterType="integer" resultType="int">
+    select count(*)
+    from mmall_cart
+    where user_id = #{userId}
+  </select>
 </mapper>

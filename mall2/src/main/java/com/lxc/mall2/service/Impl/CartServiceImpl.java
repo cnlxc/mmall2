@@ -87,7 +87,10 @@ public class CartServiceImpl implements ICartService{
         return this.list(userId);
     }
 
-
+    public ServerResponse<Integer> getCartCount(Integer userId){
+        Integer count = cartMapper.selectCountByUserId(userId);
+        return ServerResponse.createBySuccess(count);
+    }
     private CartVo getCartLimit(Integer userId){
         CartVo cartVo = new CartVo();
         List<Cart> cartList = cartMapper.selectByUserId(userId);

@@ -33,6 +33,8 @@ public class ShardedRedisUtil {
         ShardedJedis jedis = null;
         String result = null;
         try {
+
+            jedis = RedisShardedPool.getJedis();
             result = jedis.get(key);
         } catch (Exception e) {
             log.error("get {} error", key, e);

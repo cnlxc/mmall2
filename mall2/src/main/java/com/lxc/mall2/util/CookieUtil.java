@@ -19,12 +19,12 @@ public class CookieUtil {
     public static void WriteLoginToken(HttpServletResponse response,String token){
         Cookie cookie = new Cookie(COOKIE_NAME,token);
         cookie.setMaxAge(60*60*24);
-        cookie.setDomain(COOKIE_DOMAIN);
-
+//20190530 lv 跨域测试 先注销
+        //cookie.setDomain(COOKIE_DOMAIN);
+//20190530 lv 跨域测试 先注销
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         response.addCookie(cookie);
-
     }
 
     public static void delLoginCookie(HttpServletRequest request,HttpServletResponse response){
@@ -44,6 +44,10 @@ public class CookieUtil {
     }
     public static String readLoginCookie(HttpServletRequest request){
         Cookie[] cks = request.getCookies();
+        if(cks == null){
+            log.info("cookie is null");
+            return null;
+        }
         for(Cookie cookie : cks){
             log.info("read cookieName: {},cookieValue:{}",cookie.getName(),cookie.getValue());
             if(StringUtils.equals(cookie.getName(),COOKIE_NAME)){

@@ -44,7 +44,7 @@ public class UserController {
             //session.setAttribute(Const.CURRENT_USER,response.getData());
 
             User user = (User)response.getData();
-            CookieUtil.WriteLoginToken(httpResponse,session.getId() );
+            CookieUtil.WriteLoginToken(httpResponse,session.getId() ); //将loginToken加入cookie
             ShardedRedisUtil.setEx(session.getId(), JsonUtil.obj2String(user),Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
         }
         //httpResponse.addHeader("Access-Control-Allow-Origin", "*");

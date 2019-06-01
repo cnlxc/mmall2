@@ -15,7 +15,8 @@ public class CrossOriginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         log.info("add corss permit for {}",request.getRequestURI());
-        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Origin", "http://localhost:8088");
+        response.addHeader("Access-Control-Allow-Credentials","true");
         return true;
     }
 
