@@ -7,6 +7,7 @@ import com.lxc.mall2.pojo.User;
 import com.lxc.mall2.service.IUserService;
 import com.lxc.mall2.util.MD5Util;
 import com.lxc.mall2.util.ShardedRedisUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.UUID;
  * Created by 82138 on 2018/8/11.
  */
 @Service("iUserService")
+@Slf4j
 public class UserServiceImpl implements IUserService{
 
     @Autowired
@@ -50,7 +52,7 @@ public class UserServiceImpl implements IUserService{
         validResponse = checkValid(user.getEmail(),Const.EMAIL);
         if(!validResponse.isSuccess()) {return validResponse;}
         user.setRole(Const.Role.ROLE_CUSTOMER);
-        //ND5加密
+        //MD5加密
         user.setPassword(MD5Util.MD5EncodeUtf8(user.getPassword()));
         int resultCount = usermapper.insert(user);
         if(resultCount == 0) {
@@ -104,6 +106,7 @@ public class UserServiceImpl implements IUserService{
     }
 
     public ServerResponse<String> forgetPasswordReset(String username,String newPassword,String forgetToken){
+
         if(org.apache.commons.lang3.StringUtils.isBlank(forgetToken)) {
             return ServerResponse.createByErrorMessage("参数错误，Token需要传递");
         }
@@ -118,6 +121,7 @@ public class UserServiceImpl implements IUserService{
             ServerResponse.createByErrorMessage("token无效，或者过期");
         }
         if(org.apache.commons.lang3.StringUtils.equals(token,forgetToken)) {
+            log.info("yonghu"+ username+" newPassword:"+ newPassword);
             String MD5Password = MD5Util.MD5EncodeUtf8(newPassword);
             int resultCount = usermapper.updatePasswordByUsername(username,MD5Password);
             if(resultCount > 0) return ServerResponse.createBySuccess("修改密码成功");
