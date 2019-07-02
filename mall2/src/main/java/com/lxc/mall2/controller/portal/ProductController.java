@@ -30,8 +30,8 @@ public class ProductController {
     @ResponseBody
     public ServerResponse<PageInfo> list(@RequestParam(value = "keyword",required=false)String keyword,
                                          @RequestParam(value="categoryid" ,required=false)Integer categoryId,
-                                         @RequestParam(value="pagenum",defaultValue = "1")int pageNum,
-                                         @RequestParam(value = "pagesize",defaultValue = "10")int pageSize,
+                                         @RequestParam(value="pageNum",defaultValue = "1")int pageNum,
+                                         @RequestParam(value = "pageSize",defaultValue = "10")int pageSize,
                                          @RequestParam(value = "orderby",defaultValue = "")String orderBy) {
         return iProductService.getProductByKeywordCategory(keyword,categoryId,pageNum,pageSize,orderBy);
     }

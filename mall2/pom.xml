@@ -84,12 +84,20 @@
 			<version>1.9.12</version>
 		</dependency>
 
-         <!--分页插件-->
+         <!--分页插件
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper</artifactId>
 			<version>4.1.0</version>
+		</dependency>-->
+		<!-- springboot分页插件 -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+			<!-- 特别注意版本问题, 看到评论以后得以纠正 -->
+			<version>1.2.3</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>joda-time</groupId>

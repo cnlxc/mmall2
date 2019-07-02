@@ -198,12 +198,12 @@ public class ProductServiceImpl implements IProductService {
         }
 
         //PageInfo 排序
-        if(StringUtils.isNotBlank(orderBy)) {
-            if(Const.ProductListOrderBy.PRICE_ASC_DESC.contains(orderBy)) {
-                String[] orderByArray = orderBy.split("_");
-                PageHelper.orderBy(orderByArray[0] +" "+orderByArray[1]);
-            }
-        }
+        if(StringUtils.isNotBlank(orderBy) && Const.ProductListOrderBy.PRICE_ASC_DESC.contains(orderBy))
+            PageHelper.startPage(pageNum,pageSize,orderBy.replace("_"," "));
+        else
+            //价格以外全部按更新时间排序
+            PageHelper.startPage(pageNum,pageSize,"update_time desc");
+
         List<Product> list = productMapper.selectByNameAndCatrgoryIds(StringUtils.isBlank(keyword) ? null:keyword,
                                                                       categoryIdList.size()==0 ? null:categoryIdList);
         List<ProductListVO> ProductListVoList = Lists.newArrayList();
