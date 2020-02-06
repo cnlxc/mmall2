@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/cart/")
-public class cartController {
+public class CartController {
 
     @Autowired
     ICartService iCartService;

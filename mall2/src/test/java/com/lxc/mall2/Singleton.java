@@ -5,10 +5,10 @@ package com.lxc.mall2;
  */
 public class Singleton {
     public static void main(String[] args) {
-        Singleton.method();
+        Singleton.getInstance();
     }
     private Singleton(){}
-    public Object getInstance(){
+    public static Object getInstance(){
         return DefalutObject.singleton;
     }
 

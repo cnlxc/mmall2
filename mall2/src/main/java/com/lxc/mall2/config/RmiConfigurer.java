@@ -1,9 +1,7 @@
 package com.lxc.mall2.config;
 
-import com.lxc.mall2.controller.portal.cartController;
 import com.lxc.mall2.service.IProductService;
 import com.lxc.mall2.service.Impl.ProductServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.remoting.caucho.HessianServiceExporter;

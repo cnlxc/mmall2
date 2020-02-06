@@ -94,12 +94,12 @@ public class OrderController {
         try {
             boolean alipayRSACheckedV2  = AlipaySignature.rsaCheckV2(params, Configs.getAlipayPublicKey(),"utf-8", Configs.getSignType());
             if(!alipayRSACheckedV2) {
-
+                return ServerResponse.createByErrorMessage("not zfb callback,care virus attack!!");
             }
 
         } catch (AlipayApiException e) {
             logger.error("支付宝回调验证异常",e);
-        }
+        }T
         //验证各种信息
 
         ServerResponse response = iOrderService.aliCallBack(params);

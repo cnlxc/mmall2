@@ -41,7 +41,7 @@ public class CloseOrderTask {
     /**
      * redis锁使得只有一个服务器启动关单任务
      */
-    @Scheduled(cron = "0 */1 * * * ?")//每一分钟执行一次
+    //@Scheduled(cron = "0 */1 * * * ?")//每一分钟执行一次
     public void closeOrderV2(){
         log.info("关单定时任务尝试启动");
         //拿到配置的超时时间

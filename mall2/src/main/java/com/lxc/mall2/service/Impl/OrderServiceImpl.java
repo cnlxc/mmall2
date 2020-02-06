@@ -10,6 +10,7 @@ import com.alipay.demo.trade.model.result.AlipayF2FPrecreateResult;
 import com.alipay.demo.trade.service.AlipayTradeService;
 import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 
+import com.alipay.demo.trade.utils.ZxingUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -155,6 +156,8 @@ public class OrderServiceImpl implements IOrderService{
                 // 需要修改为运行机器上的路径
                 String qrPath = String.format(path+"/qr-%s.png",response.getOutTradeNo());
                 String qrFileName = String.format("qr-%s.png",response.getOutTradeNo());
+                ZxingUtils.getQRCodeImge(response.getQrCode(),256,qrPath);
+
                 File targetFile = new File(path,qrFileName);
                 try {
                     FTPUtil.uploadFile(Lists.newArrayList(targetFile));
